@@ -1,8 +1,9 @@
 import { Tile } from "./tile.js";
 export class Map {
-    constructor(isoCtx, cartCtx, gridLastTile, isometric, tileTypes, selectedTile){
-        this.isoCtx = isoCtx;
-        this.CartCtx = cartCtx;
+    constructor(ctx, cartCtx, gridLastTile, isometric, tileTypes, selectedTile){
+        this.isoCtx = ctx;
+        this.cartCtx = cartCtx;
+        this.cartTileSize = 79;
         this.iso = isometric;
         this.tileTypes = tileTypes;
         this.selectedTile = selectedTile;
@@ -24,15 +25,25 @@ export class Map {
     }
 
     printCartFloor(a = this.selectedTile.x, b = this.selectedTile.y){
+        console.log('PrintCartFloor');
+        this.cartCtx.clearRect(0, 0, 1000, 1000);
+        this.cartCtx.lineWidth = 3;
+
         for (let y = 0; y < 5; y++){
             for (let x = 0; x < 5; x++){
                 const xCoord = a + (x - 2);
                 const yCoord = b + (y - 2);
-                if (xCoord >= 0 && yCoord >= 0 && xCoord < this.map.floor[y].length && yCoord < this.map.floor.length){
-                    this.isoCtx.fillRect(x * this.tileSize + 2, y * this.tileSize + 3, this.tileSize, this.tileSize); 
+                if (xCoord >= 0 && yCoord >= 0 && xCoord < this.floor[y].length && yCoord < this.floor.length){
+                    this.cartCtx.fillStyle = '#61dc60';
+                    if (x === 2 && y === 2) this.cartCtx.fillStyle = '#80c4fd';
+                    this.cartCtx.fillRect(x * this.cartTileSize + 2, y * this.cartTileSize + 3, this.cartTileSize, this.cartTileSize); 
+                    this.cartCtx.fillStyle = 'black';
+                    this.cartCtx.strokeRect(x * this.cartTileSize + 2 , y * this.cartTileSize + 3, this.cartTileSize, this.cartTileSize); 
+                    this.cartCtx.fillText(`${xCoord}, ${yCoord}`,10 + (x * this.tileSize),this.tileSize + (y * this.tileSize), this.tileSize, this.tileSize);
                 }
             }
         }
+        
     }
 
     printCartFloorTile(){

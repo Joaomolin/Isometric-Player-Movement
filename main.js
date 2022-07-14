@@ -59,13 +59,13 @@ function runFrame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   map.printIsoFloor();
-  // map.printCartFloor();
+  map.printCartFloor();
   onUpdate();
   printMouseTile();
   updateCamera(canvas);
   updateInfo();
   printInfo();
-  cartesian.printMap(selectedTile.x, selectedTile.y);
+  // cartesian.printMap(selectedTile.x, selectedTile.y);
   if (runCanvas){
     requestAnimationFrame(runFrame);
   }
