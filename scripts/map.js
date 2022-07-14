@@ -34,8 +34,8 @@ export class Map {
                 const xCoord = a + (x - 2);
                 const yCoord = b + (y - 2);
                 if (xCoord >= 0 && yCoord >= 0 && xCoord < this.floor[y].length && yCoord < this.floor.length){
-                    this.cartCtx.fillStyle = '#61dc60';
-                    if (x === 2 && y === 2) this.cartCtx.fillStyle = '#80c4fd';
+                    this.cartCtx.fillStyle = '#91db69';
+                    if (x === 2 && y === 2) this.cartCtx.fillStyle = '#52c6ff';
                     this.cartCtx.fillRect(x * this.cartTileSize + 2, y * this.cartTileSize + 3, this.cartTileSize, this.cartTileSize); 
                     this.cartCtx.fillStyle = 'black';
                     this.cartCtx.strokeRect(x * this.cartTileSize + 2 , y * this.cartTileSize + 3, this.cartTileSize, this.cartTileSize); 
