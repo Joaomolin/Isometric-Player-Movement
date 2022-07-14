@@ -9,7 +9,7 @@ export class DebugOptions {
 
 
   printDebugGrid(rx, ry, gridFirstTile, gridLastTile, floorX, floorY, canvas) {
-    this.printGridLines(gridFirstTile, gridLastTile);
+    // this.printGridLines(gridFirstTile, gridLastTile);
     if (this.printCoordinates){
         this.printGridCoordinates(gridFirstTile, gridLastTile);
     }
@@ -38,7 +38,7 @@ export class DebugOptions {
 
   strokeSelectedTile(floorX, floorY){
     // console.log(`Printing selected ${floorX}, ${floorY}`);
-    this.ctx.strokeStyle = "black";
+    this.ctx.strokeStyle = "red";
     this.ctx.beginPath();
     this.ctx.moveTo(this.iso.IsoToScreenX(floorX, floorY), this.iso.IsoToScreenY(floorX, floorY));
     this.ctx.lineTo(
@@ -55,6 +55,8 @@ export class DebugOptions {
   );
   this.ctx.closePath();
   this.ctx.stroke();
+
+  this.ctx.strokeStyle = "black";
   }
   printGridLines(gridFirstTile, gridLastTile) {
     this.ctx.strokeStyle = "#aaa";

@@ -50,7 +50,7 @@ function ScreenToIsoY(globalX, globalY) {
   return isometric.ScreenToIsoY(globalX, globalY);
 }
 
-const map = new Map(gridLastTile);
+const map = new Map(ctx, cartCtx, gridLastTile, isometric, tileTypes, selectedTile);
 const debugGrid = new DebugOptions(ctx, isometric);
 //Cart
 const cartesian = new Cartesian(selectedTile, isometric, cartCtx, map);
@@ -58,8 +58,10 @@ const cartesian = new Cartesian(selectedTile, isometric, cartCtx, map);
 function runFrame() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  map.printIsoFloor();
+  // map.printCartFloor();
   onUpdate();
-  // printMouseTile();
+  printMouseTile();
   updateCamera(canvas);
   updateInfo();
   printInfo();
@@ -75,23 +77,12 @@ canvas.onmousemove = function (e) {
 function printMouseTile() {
   printTile(selectedTile.x, selectedTile.y);
 }
+
 function printTile(x, y) {
   const tileX = IsoToScreenX(x - 1, y);
   const tileY = IsoToScreenY(x, y);
-  let tile = tileTypes[1];
   ctx.globalAlpha = 1;
-  ctx.drawImage(
-    tile.img,
-    tile.imgX,
-    tile.imgY,
-    tile.imgW,
-    tile.imgH,
-    tileX,
-    tileY,
-    isometric.IsoW * 2,
-    isometric.IsoH * 4
-  );
-  tile = tileTypes[0];
+  let tile = tileTypes[0];
   ctx.drawImage(
     tile.img,
     tile.imgX,
@@ -108,7 +99,7 @@ function initTiles() {
   tileTypes.length = 0;
   var sheet = new Image();
   sheet.src = "../assets/FlatTiles.png";
-  tileTypes.push(new Tile(sheet, 0, 0, 64, 64));
+  tileTypes.push(new Tile(sheet, 64, 0, 64, 64));
 
   var sheet2 = new Image();
   sheet2.src = "../assets/FlatTilesBig.png";
