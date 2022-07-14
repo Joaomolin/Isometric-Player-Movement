@@ -1,5 +1,5 @@
 import { Pos } from "./position.js";
-import Config from "./isometricConfig.json" assert { type: "json" };
+import Config from "../isometricConfig.json" assert { type: "json" };
 
 export class Isometric {
     constructor(mouse){

@@ -1,8 +1,8 @@
-import { Isometric } from "./isometric.js";
-import { DebugOptions } from "./debugOptions.js";
-import { Cartesian } from "./cartesian.js";
-import { Pos } from "./position.js";
-import { Map } from "./map.js";
+import { Isometric } from "./scripts/isometric.js";
+import { DebugOptions } from "./scripts/debugOptions.js";
+import { Cartesian } from "./scripts/cartesian.js";
+import { Pos } from "./scripts/position.js";
+import { Map } from "./scripts/map.js";
 class Tile {
   constructor(img, imgX, imgY, imgW, imgH) {
     var tile = this;
