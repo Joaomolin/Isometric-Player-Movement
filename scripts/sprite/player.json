@@ -4,8 +4,6 @@
         "sheetPosY": 48,
         "sheetPosWidth": 24,
         "sheetPosHeight": 48,
-        "spriteOffsetX": 0,
-        "spriteOffsetY": 0,
         "src": "./assets/IsometricPlayer.png",
         "color": "#684818"
     },"PlayerFacingN": {
@@ -13,8 +11,6 @@
         "sheetPosY": 96,
         "sheetPosWidth": 24,
         "sheetPosHeight": 48,
-        "spriteOffsetX": 0,
-        "spriteOffsetY": -32,
         "src": "./assets/IsometricPlayer.png",
         "color": "#684818"
     }
