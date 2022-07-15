@@ -3,7 +3,7 @@ export class DebugOptions {
     this.ctx = ctx;
     this.iso = isometric;
 
-    this.printCoordinates = false;
+    this.printCoordinates = true;
     this.printCameraBorder = false;
   }
 
@@ -94,7 +94,7 @@ export class DebugOptions {
         this.ctx.fillText(
           `${x}, ${y}`,
           this.iso.IsoToScreenX(x, y),
-          this.iso.IsoToScreenY(x, y) + this.iso.IsoH
+          this.iso.IsoToScreenY(x, y) + this.iso.IsoH + 5
         );
       }
     }

@@ -3,6 +3,7 @@ import { DebugOptions } from "./scripts/debugOptions.js";
 import { Coordinates } from "./scripts/coordinates.js";
 import { Map } from "./scripts/map.js";
 import { Sprite } from "./scripts/sprite/sprite.js";
+import { Tile } from "./scripts/tile.js";
 import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
 // class Tile {
 //   constructor(img, imgX, imgY, imgW, imgH) {
@@ -29,7 +30,7 @@ let infoArr = ["Debug =D"];
 class SelectedTile {
   constructor() {
     this.coord = new Coordinates();
-    this.spriteInfo = TilesInfo.FlatTilesBigWater;
+    this.spriteInfo = new Tile(this.coord, TilesInfo.FlatTilesWater);
   }
 
 }
@@ -62,6 +63,7 @@ function runFrame() {
 
   map.printIsoFloor();
   map.printCartFloor();
+  // map.printSelectedTile();
   updateSelected(true);
 
   updateCamera(canvas);

@@ -19,10 +19,16 @@ export class Map {
     for (let y = 0; y < gridLastTile; y++) {
       let arr = [];
       for (let x = 0; x < gridLastTile; x++) {
-        arr.push(new Tile(new Coord(x, y), TilesInfo.FlatTilesBigGrass));
+        const infoToSend = Math.random() > 0.8 ? TilesInfo.FlatTilesBigWater : TilesInfo.FlatTilesBigGrass;
+
+        arr.push(new Tile(new Coord(x, y), infoToSend));
       }
       this.floor.push(arr);
     }
+  }
+
+  printSelectedTile(){
+    this.newPrintIsoFloorTile(this.selectedTile.spriteInfo);
   }
 
   printCartFloor() {
@@ -40,11 +46,12 @@ export class Map {
     const xCoord = this.selectedTile.coord.x + (x - 2);
     const yCoord = this.selectedTile.coord.y + (y - 2);
     if (xCoord >= 0 && yCoord >= 0 && xCoord < this.floor[y].length && yCoord < this.floor.length) {
-      const tile = this.floor[xCoord][yCoord];
-      console.log(tile);
+      const tile = this.floor[yCoord][xCoord];
+      
       this.cartCtx.fillStyle = tile.color;
       if (x === 2 && y === 2) {
-        this.cartCtx.fillStyle = this.selectedTile.spriteInfo.color;
+        //Print the middle one selectedTile color
+        // this.cartCtx.fillStyle = this.selectedTile.spriteInfo.color;
       }
       this.cartCtx.fillRect(
         x * this.cartTileSize + 2,
@@ -69,20 +76,19 @@ export class Map {
     this.isoCtx.clearRect(0, 0, 10000, 10000);
     for (let y = 0; y < this.floor.length; y++) {
       for (let x = 0; x < this.floor[y].length; x++) {
-        this.newPrintIsoFloorTile(this.floor[y][x]);
+        this.newPrintIsoFloorTile(this.floor[x][y]);
       }
     }
 
   }
 
   newPrintIsoFloorTile(tile) {
+
     const tileX = this.iso.IsoToScreenX(
       tile.coordinates.x - 1,
       tile.coordinates.y
     );
     const tileY = this.iso.IsoToScreenY(tile.coordinates.x, tile.coordinates.y);
-
-    this.isoCtx.globalAlpha = 1;
 
     this.isoCtx.drawImage(
       tile.sprite.img,
