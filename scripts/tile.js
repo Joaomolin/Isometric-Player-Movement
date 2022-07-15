@@ -1,8 +1,14 @@
+
+import { Sprite } from "./sprite/sprite.js";
 export class Tile {
-    constructor(pos, sprite) {
-        this.sprite = sprite;
-        this.color = '#aaa';
-        
-        this.pos = pos;
+    constructor(coord, sprite) {
+        //Main
+        this.coordinates = coord;
+
+        //Iso
+        this.sprite = new Sprite(sprite);
+
+        //Cart
+        this.color = sprite.color;
     }
 }

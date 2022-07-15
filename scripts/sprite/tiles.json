@@ -4,12 +4,42 @@
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
-        "src": "./assets/FlatTilesBig.png"
+        "src": "./assets/FlatTilesBig.png",
+        "color": "#91db69"
     },"FlatTilesGrass": {
         "sheetPosX": 0,
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
-        "src": "./assets/FlatTiles.png"
+        "src": "./assets/FlatTiles.png",
+        "color": "#91db69"
+    },"FlatTilesBigWater": {
+        "sheetPosX": 64,
+        "sheetPosY": 0,
+        "sheetPosWidth": 64,
+        "sheetPosHeight": 64,
+        "src": "./assets/FlatTilesBig.png",
+        "color": "#52c6ff"
+    },"FlatTilesWater": {
+        "sheetPosX": 64,
+        "sheetPosY": 0,
+        "sheetPosWidth": 64,
+        "sheetPosHeight": 64,
+        "src": "./assets/FlatTiles.png",
+        "color": "#52c6ff"
+    },"FlatTilesBigDirt": {
+        "sheetPosX": 128,
+        "sheetPosY": 0,
+        "sheetPosWidth": 64,
+        "sheetPosHeight": 64,
+        "src": "./assets/FlatTilesBig.png",
+        "color": "#e6904e"
+    },"FlatTilesDirt": {
+        "sheetPosX": 128,
+        "sheetPosY": 0,
+        "sheetPosWidth": 64,
+        "sheetPosHeight": 64,
+        "src": "./assets/FlatTiles.png",
+        "color": "#e6904e"
     }
 }

@@ -1,9 +1,7 @@
 import { Isometric } from "./scripts/isometric.js";
 import { DebugOptions } from "./scripts/debugOptions.js";
-import { Cartesian } from "./scripts/cartesian.js";
-import { Coordinate } from "./scripts/coordinate.js";
+import { Coordinates } from "./scripts/coordinates.js";
 import { Map } from "./scripts/map.js";
-import { Tile } from "./scripts/tile.js";
 import { Sprite } from "./scripts/sprite/sprite.js";
 import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
 // class Tile {
@@ -24,19 +22,22 @@ var ctx = canvas.getContext("2d");
 var cartCanvas = document.getElementById("cartesian");
 var cartCtx = cartCanvas.getContext("2d");
 var runCanvas = true;
-const halfScreen = new Coordinate(canvas.width / 2, canvas.height / 2);
 let shouldPrintInfo = true;
 //Debug info
 let infoArr = ["Debug =D"];
-let spriteTypes = [];
-//
-var interval = null;
 //Grid tiles
-const selectedTile = new Coordinate();
+class SelectedTile {
+  constructor() {
+    this.coord = new Coordinates();
+    this.spriteInfo = TilesInfo.FlatTilesBigWater;
+  }
+
+}
+const selectedTile = new SelectedTile();
 var gridFirstTile = 0;
 var gridLastTile = 6;
 //Mouse
-const mouse = new Coordinate(halfScreen.x, halfScreen.y);
+const mouse = new Coordinates(canvas.width / 2, canvas.height / 2);
 
 // isometric:
 const isometric = new Isometric(mouse);
@@ -53,23 +54,21 @@ function ScreenToIsoY(globalX, globalY) {
   return isometric.ScreenToIsoY(globalX, globalY);
 }
 
-const map = new Map(ctx, cartCtx, gridLastTile, isometric, spriteTypes, selectedTile);
+const map = new Map(ctx, cartCtx, gridLastTile, isometric, selectedTile);
 const debugGrid = new DebugOptions(ctx, isometric);
 //Cart
-const cartesian = new Cartesian(selectedTile, isometric, cartCtx, map);
 
 function runFrame() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   map.printIsoFloor();
   map.printCartFloor();
-  onUpdate();
-  printMouseTile();
+  updateSelected(true);
+
   updateCamera(canvas);
   updateInfo();
   printInfo();
-  // cartesian.printMap(selectedTile.x, selectedTile.y);
-  if (runCanvas){
+
+  if (runCanvas) {
     requestAnimationFrame(runFrame);
   }
 }
@@ -77,45 +76,12 @@ canvas.onmousemove = function (e) {
   mouse.x = e.offsetX;
   mouse.y = e.offsetY;
 };
-function printMouseTile() {
-  printTile(selectedTile.x, selectedTile.y);
-}
-
-function printTile(x, y) {
-  const tileX = IsoToScreenX(x - 1, y);
-  const tileY = IsoToScreenY(x, y);
-  ctx.globalAlpha = 1;
-  let tile = spriteTypes[0];
-  ctx.drawImage(
-    tile.img,
-    tile.imgX,
-    tile.imgY,
-    tile.imgW,
-    tile.imgH,
-    tileX,
-    tileY,
-    isometric.IsoW * 2,
-    isometric.IsoH * 4
-  );
-}
-
-function initTiles() {
-  spriteTypes.length = 0;
-  // var sheet = new Image();
-  // sheet.src = "../assets/FlatTiles.png";
-  spriteTypes.push(new Sprite(TilesInfo.FlatTilesGrass));
-
-  // var sheet2 = new Image();
-  // sheet2.src = "../assets/FlatTilesBig.png";
-  spriteTypes.push(new Sprite(TilesInfo.FlatTilesBigGrass));
-}
-initTiles();
 
 function updateCamera(canvas) {
   return isometric.updateCamera(canvas);
 }
 canvas.addEventListener('mousemove', function (e) {
-  if (!runCanvas){
+  if (!runCanvas) {
     runCanvas = true;
     runFrame();
   }
@@ -124,21 +90,18 @@ canvas.addEventListener('mousemove', function (e) {
 canvas.addEventListener('mouseleave', function (e) {
   runCanvas = false;
 });
-function onUpdate() {
+function updateSelected(print) {
 
   var rx = Math.max(gridFirstTile, Math.min(ScreenToIsoX(mouse.x, mouse.y), gridLastTile));
   var ry = Math.max(gridFirstTile, Math.min(ScreenToIsoY(mouse.x, mouse.y), gridLastTile));
   const floorX = Math.min(Math.floor(rx), gridLastTile - 1);
   const floorY = Math.min(Math.floor(ry), gridLastTile - 1);
+  selectedTile.coord.x = floorX;
+  selectedTile.coord.y = floorY;
 
-  selectedTile.x = floorX;
-  selectedTile.y = floorY;
-
-
-  debugGrid.printDebugGrid(rx, ry, gridFirstTile, gridLastTile, floorX, floorY, canvas);
-  //Selected tile
-  debugGrid.strokeSelectedTile(floorX, floorY);
-  
+  if (print) {
+    debugGrid.printDebugGrid(rx, ry, gridFirstTile, gridLastTile, floorX, floorY, canvas);
+  }
 
 }
 
@@ -150,7 +113,7 @@ tileCoordBtn.addEventListener('click', function (e) {
 
 var tileCoordBtn = document.getElementById("showCartesianBtn");
 tileCoordBtn.addEventListener('click', function (e) {
-  cartCanvas.style.display= cartCanvas.style.display === 'none' ? 'initial' : 'none';
+  cartCanvas.style.display = cartCanvas.style.display === 'none' ? 'initial' : 'none';
 
   runFrame();
 });
@@ -169,18 +132,19 @@ tileCoordBtn.addEventListener('click', function (e) {
 
 
 
-function updateInfo(){
+function updateInfo() {
   infoArr.length = 0;
   infoArr.push(`Mouse: ${mouse.getInString()}`);
-  infoArr.push(`Inside grid: ${selectedTile.getInString()}`);
+  infoArr.push(`Inside grid: ${selectedTile.coord.getInString()}`);
   infoArr.push(`Cam: ${isometric.camera.getInString()}`);
 }
 
 function printInfo() {
   if (!shouldPrintInfo) return;
   ctx.font = "15px sans-serif";
-  ctx.textAlign = "left";
-  ctx.fillStyle = "white";
+  ctx.textAlign = 'left';
+  ctx.fillStyle = 'white';
+  ctx.strokeStyle = 'black'
   ctx.globalAlpha = 0.8;
   ctx.strokeRect(0, 0, 170, infoArr.length * 21);
   ctx.fillRect(0, 0, 170, infoArr.length * 21);

@@ -1,9 +1,9 @@
-import { Coordinate } from "./coordinate.js";
+import { Coordinates } from "./coordinates.js";
 import Config from "../isometricConfig.json" assert { type: "json" };
 
 export class Isometric {
     constructor(mouse){
-        this.camera = new Coordinate();
+        this.camera = new Coordinates();
         this.mouse = mouse;
         this.IsoW = Config.cellWidth; // cell width
         this.IsoH = Config.cellHeight; // cell height

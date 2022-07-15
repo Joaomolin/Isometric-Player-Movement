@@ -14,6 +14,9 @@ export class DebugOptions {
         this.printGridCoordinates(gridFirstTile, gridLastTile);
     }
 
+
+    this.strokeSelectedTile(floorX, floorY);
+    
     this.printXAxisDividedLine(rx, ry, gridFirstTile, gridLastTile, floorX, floorY);
     this.printYAxisDividedLine(rx, ry, gridFirstTile, gridLastTile, floorX, floorY);
 
@@ -37,7 +40,7 @@ export class DebugOptions {
 
 
   strokeSelectedTile(floorX, floorY){
-    // console.log(`Printing selected ${floorX}, ${floorY}`);
+    
     this.ctx.strokeStyle = "red";
     this.ctx.beginPath();
     this.ctx.moveTo(this.iso.IsoToScreenX(floorX, floorY), this.iso.IsoToScreenY(floorX, floorY));
