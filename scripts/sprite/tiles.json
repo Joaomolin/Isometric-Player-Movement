@@ -4,6 +4,8 @@
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0,
         "src": "./assets/FlatTilesBig.png",
         "color": "#91db69"
     },"FlatTilesGrass": {
@@ -11,6 +13,8 @@
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0,
         "src": "./assets/FlatTiles.png",
         "color": "#91db69"
     },"FlatTilesBigWater": {
@@ -18,6 +22,8 @@
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0,
         "src": "./assets/FlatTilesBig.png",
         "color": "#52c6ff"
     },"FlatTilesWater": {
@@ -25,6 +31,8 @@
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0,
         "src": "./assets/FlatTiles.png",
         "color": "#52c6ff"
     },"FlatTilesBigDirt": {
@@ -32,6 +40,8 @@
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0,
         "src": "./assets/FlatTilesBig.png",
         "color": "#e6904e"
     },"FlatTilesDirt": {
@@ -39,6 +49,8 @@
         "sheetPosY": 0,
         "sheetPosWidth": 64,
         "sheetPosHeight": 64,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0,
         "src": "./assets/FlatTiles.png",
         "color": "#e6904e"
     }

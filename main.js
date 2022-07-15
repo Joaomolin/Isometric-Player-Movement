@@ -5,6 +5,7 @@ import { Map } from "./scripts/map.js";
 import { Sprite } from "./scripts/sprite/sprite.js";
 import { Tile } from "./scripts/tile.js";
 import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
+import PlayerInfo from "./scripts/sprite/player.json" assert {type: 'json'};
 // class Tile {
 //   constructor(img, imgX, imgY, imgW, imgH) {
 //     var tile = this;
@@ -30,7 +31,8 @@ let infoArr = ["Debug =D"];
 class SelectedTile {
   constructor() {
     this.coord = new Coordinates();
-    this.spriteInfo = new Tile(this.coord, TilesInfo.FlatTilesWater);
+    this.spriteInfo = new Tile(this.coord, PlayerInfo.PlayerFacingN);
+    this.spriteIcon = new Tile(this.coord, PlayerInfo.PlayerIcon);
   }
 
 }
@@ -63,8 +65,8 @@ function runFrame() {
 
   map.printIsoFloor();
   map.printCartFloor();
-  // map.printSelectedTile();
   updateSelected(true);
+  map.printSelectedTile();
 
   updateCamera(canvas);
   updateInfo();

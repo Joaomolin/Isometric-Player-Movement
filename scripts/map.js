@@ -19,7 +19,14 @@ export class Map {
     for (let y = 0; y < gridLastTile; y++) {
       let arr = [];
       for (let x = 0; x < gridLastTile; x++) {
-        const infoToSend = Math.random() > 0.8 ? TilesInfo.FlatTilesBigWater : TilesInfo.FlatTilesBigGrass;
+        let infoToSend = TilesInfo.FlatTilesBigGrass;
+        const seed = Math.random();
+        if (seed > 0.5) {
+          infoToSend = TilesInfo.FlatTilesBigWater;
+        }
+        if (seed > 0.8) {
+          infoToSend = TilesInfo.FlatTilesBigDirt;
+        }
 
         arr.push(new Tile(new Coord(x, y), infoToSend));
       }
@@ -27,10 +34,14 @@ export class Map {
     }
   }
 
-  printSelectedTile(){
-    this.newPrintIsoFloorTile(this.selectedTile.spriteInfo);
+  printSelectedTile() {
+    this.printIsoPlayer(this.selectedTile.spriteInfo);
+    this.printCartPlayer(this.selectedTile.spriteInfo);
   }
 
+  printCartPlayer(tile) {
+
+  }
   printCartFloor() {
     this.cartCtx.clearRect(0, 0, 10000, 10000);
     this.cartCtx.lineWidth = 3;
@@ -47,12 +58,9 @@ export class Map {
     const yCoord = this.selectedTile.coord.y + (y - 2);
     if (xCoord >= 0 && yCoord >= 0 && xCoord < this.floor[y].length && yCoord < this.floor.length) {
       const tile = this.floor[yCoord][xCoord];
-      
+
       this.cartCtx.fillStyle = tile.color;
-      if (x === 2 && y === 2) {
-        //Print the middle one selectedTile color
-        // this.cartCtx.fillStyle = this.selectedTile.spriteInfo.color;
-      }
+      
       this.cartCtx.fillRect(
         x * this.cartTileSize + 2,
         y * this.cartTileSize + 3,
@@ -66,8 +74,24 @@ export class Map {
         this.cartTileSize,
         this.cartTileSize
       );
+
+      if (x === 2 && y === 2) { 
+        // this.cartCtx.fillStyle = this.selectedTile.spriteInfo.color;
+        const tile = this.selectedTile.spriteIcon;
+        this.cartCtx.drawImage(
+          tile.sprite.img,
+          tile.sprite.imgX,
+          tile.sprite.imgY,
+          tile.sprite.imgW,
+          tile.sprite.imgH / 2,
+          x * this.cartTileSize - 5,
+          y * this.cartTileSize - 10,
+          IsoConfig.cellWidth * 2,
+          IsoConfig.cellHeight * 4
+        );
+      }
       this.cartCtx.fillStyle = 'black'
-      this.cartCtx.fillText(`${xCoord}, ${yCoord}`, 10 + (x * this.cartTileSize),this.cartTileSize - 5 + (y * this.cartTileSize), this.cartTileSize, this.cartTileSize);
+      this.cartCtx.fillText(`${xCoord}, ${yCoord}`, 10 + (x * this.cartTileSize), this.cartTileSize - 5 + (y * this.cartTileSize), this.cartTileSize, this.cartTileSize);
 
     }
   }
@@ -79,6 +103,28 @@ export class Map {
         this.newPrintIsoFloorTile(this.floor[x][y]);
       }
     }
+
+  }
+  printIsoPlayer(tile) {
+
+    const tileX = this.iso.IsoToScreenX(
+      tile.coordinates.x - 1,
+      tile.coordinates.y
+    );
+    const tileY = this.iso.IsoToScreenY(tile.coordinates.x, tile.coordinates.y);
+
+    this.isoCtx.drawImage(
+      tile.sprite.img,
+      tile.sprite.imgX,
+      tile.sprite.imgY,
+      tile.sprite.imgW,
+      tile.sprite.imgH,
+      tileX + IsoConfig.cellWidth / 2,
+      tileY - IsoConfig.cellHeight * 2,
+      IsoConfig.cellWidth,
+      IsoConfig.cellHeight * 4
+    );
+
 
   }
 

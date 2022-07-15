@@ -1,16 +1,22 @@
 {
     "PlayerIcon": {
-        "sheetPosX": 0,
-        "sheetPosY": 0,
+        "sheetPosX": 24,
+        "sheetPosY": 48,
         "sheetPosWidth": 24,
         "sheetPosHeight": 48,
-        "src": "./assets/IsometricPlayer.png"
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0,
+        "src": "./assets/IsometricPlayer.png",
+        "color": "#684818"
     },"PlayerFacingN": {
-        "sheetPosX": 0,
-        "sheetPosY": 0,
+        "sheetPosX": 24,
+        "sheetPosY": 96,
         "sheetPosWidth": 24,
         "sheetPosHeight": 48,
-        "src": "./assets/IsometricPlayer.png"
+        "spriteOffsetX": 0,
+        "spriteOffsetY": -32,
+        "src": "./assets/IsometricPlayer.png",
+        "color": "#684818"
     }
 
 }
