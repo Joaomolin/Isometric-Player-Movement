@@ -7,6 +7,7 @@ import { Sprite } from "./scripts/sprite/sprite.js";
 import { Tile } from "./scripts/tile.js";
 import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
 import PlayerInfo from "./scripts/sprite/player.json" assert {type: 'json'};
+import { Keyboard } from "./scripts/keyboard.js";
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -40,13 +41,15 @@ function ScreenToIsoY(globalX, globalY) {
   return isometric.ScreenToIsoY(globalX, globalY);
 }
 
-const player = new Player();
+const keyboard = new Keyboard();
+const player = new Player(keyboard);
 const map = new Map(ctx, cartCtx, gridLastTile, isometric, selectedTile, player);
 const debugGrid = new DebugOptions(ctx, isometric);
 //Cart
 
 function runFrame() {
 
+  player.movePlayer();
   map.printIsoFloor();
   map.printCartFloor();
   updateSelected(true);
@@ -118,16 +121,11 @@ tileCoordBtn.addEventListener('click', function (e) {
   runFrame();
 });
 
-document.addEventListener('keydown', function(event) {
-  player.movePlayer(event.key);
-});
-
-
-
 function updateInfo() {
   infoArr.length = 0;
   infoArr.push(`Mouse: ${mouse.getInString()}`);
   infoArr.push(`Inside grid: ${selectedTile.coord.getInString()}`);
+  infoArr.push(`Player: ${player.dir}, ${player.pos.getInString()}`);
   infoArr.push(`Cam: ${isometric.camera.getInString()}`);
 }
 
@@ -147,3 +145,12 @@ function printInfo() {
 }
 
 runFrame();
+
+
+document.addEventListener('keyup', function (e) {
+  keyboard.keyUp(e.key);
+});
+
+document.addEventListener('keydown', function (e) {
+  keyboard.keyDown(e.key);
+});
