@@ -1,9 +1,9 @@
 import { Tile } from "./tile.js";
 import TilesInfo from "./sprite/tiles.json" assert { type: "json" };
 import IsoConfig from "../isometricConfig.json" assert { type: "json" };
-import { Coordinates as Coord } from "./coordinates.js";
+import { Coordinates } from "./coordinates.js";
 export class Map {
-  constructor(ctx, cartCtx, gridLastTile, isometric, selectedTile) {
+  constructor(ctx, cartCtx, gridLastTile, isometric, selectedTile, player) {
     this.isoCtx = ctx;
     this.cartCtx = cartCtx;
     this.cartTileSize = 79;
@@ -11,6 +11,8 @@ export class Map {
     this.selectedTile = selectedTile;
     this.floor = [];
     this.objects = [];
+    this.playerTile = player.pos;
+    this.player = player;
 
     this.createMap(gridLastTile);
   }
@@ -28,20 +30,17 @@ export class Map {
           infoToSend = TilesInfo.FlatTilesBigDirt;
         }
 
-        arr.push(new Tile(new Coord(x, y), infoToSend));
+        arr.push(new Tile(new Coordinates(x, y), infoToSend));
       }
       this.floor.push(arr);
     }
   }
 
   printSelectedTile() {
-    this.printIsoPlayer(this.selectedTile.spriteInfo);
-    this.printCartPlayer(this.selectedTile.spriteInfo);
+    this.printIsoPlayer();
+    
   }
 
-  printCartPlayer(tile) {
-
-  }
   printCartFloor() {
     this.cartCtx.clearRect(0, 0, 10000, 10000);
     this.cartCtx.lineWidth = 3;
@@ -75,7 +74,7 @@ export class Map {
         this.cartTileSize
       );
 
-      if (x === 2 && y === 2) { 
+      if (xCoord === this.playerTile.x && yCoord === this.playerTile.y) { 
         // this.cartCtx.fillStyle = this.selectedTile.spriteInfo.color;
         const tile = this.selectedTile.spriteIcon;
         this.cartCtx.drawImage(
@@ -105,13 +104,13 @@ export class Map {
     }
 
   }
-  printIsoPlayer(tile) {
-
+  printIsoPlayer() {
+    const tile = this.selectedTile.spriteInfo;
     const tileX = this.iso.IsoToScreenX(
-      tile.coordinates.x - 1,
-      tile.coordinates.y
+      this.playerTile.x - 1,
+      this.playerTile.y
     );
-    const tileY = this.iso.IsoToScreenY(tile.coordinates.x, tile.coordinates.y);
+    const tileY = this.iso.IsoToScreenY(this.playerTile.x, this.playerTile.y);
 
     this.isoCtx.drawImage(
       tile.sprite.img,

@@ -2,22 +2,11 @@ import { Isometric } from "./scripts/isometric.js";
 import { DebugOptions } from "./scripts/debugOptions.js";
 import { Coordinates } from "./scripts/coordinates.js";
 import { Map } from "./scripts/map.js";
+import { Player } from "./scripts/player.js";
 import { Sprite } from "./scripts/sprite/sprite.js";
 import { Tile } from "./scripts/tile.js";
 import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
 import PlayerInfo from "./scripts/sprite/player.json" assert {type: 'json'};
-// class Tile {
-//   constructor(img, imgX, imgY, imgW, imgH) {
-//     var tile = this;
-
-//     tile.img = img;
-
-//     tile.imgX = imgX;
-//     tile.imgY = imgY;
-//     tile.imgW = imgW;
-//     tile.imgH = imgH;
-//   }
-// }
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -31,25 +20,19 @@ let infoArr = ["Debug =D"];
 class SelectedTile {
   constructor() {
     this.coord = new Coordinates();
-    this.spriteInfo = new Tile(this.coord, PlayerInfo.PlayerFacingN);
+    this.spriteInfo = new Tile(this.coord, PlayerInfo.Directions.PlayerFacingW);
     this.spriteIcon = new Tile(this.coord, PlayerInfo.PlayerIcon);
   }
-
 }
 const selectedTile = new SelectedTile();
 var gridFirstTile = 0;
-var gridLastTile = 6;
+var gridLastTile = 11;
 //Mouse
 const mouse = new Coordinates(canvas.width / 2, canvas.height / 2);
 
 // isometric:
 const isometric = new Isometric(mouse);
-function IsoToScreenX(localX, localY) {
-  return isometric.IsoToScreenX(localX, localY);
-}
-function IsoToScreenY(localX, localY) {
-  return isometric.IsoToScreenY(localX, localY);
-}
+
 function ScreenToIsoX(globalX, globalY) {
   return isometric.ScreenToIsoX(globalX, globalY);
 }
@@ -57,7 +40,8 @@ function ScreenToIsoY(globalX, globalY) {
   return isometric.ScreenToIsoY(globalX, globalY);
 }
 
-const map = new Map(ctx, cartCtx, gridLastTile, isometric, selectedTile);
+const player = new Player();
+const map = new Map(ctx, cartCtx, gridLastTile, isometric, selectedTile, player);
 const debugGrid = new DebugOptions(ctx, isometric);
 //Cart
 
@@ -132,6 +116,10 @@ var tileCoordBtn = document.getElementById("showTileCoord");
 tileCoordBtn.addEventListener('click', function (e) {
   debugGrid.printCoordinates = !debugGrid.printCoordinates;
   runFrame();
+});
+
+document.addEventListener('keydown', function(event) {
+  player.movePlayer(event.key);
 });
 
 
