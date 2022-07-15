@@ -1,9 +1,8 @@
 export class Tile {
-    constructor(x, y, sprite) {
+    constructor(pos, sprite) {
         this.sprite = sprite;
         this.color = '#aaa';
-
-        this.x = x;
-        this.y = y;
+        
+        this.pos = pos;
     }
 }

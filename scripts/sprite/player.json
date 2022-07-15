@@ -1,0 +1,16 @@
+{
+    "PlayerIcon": {
+        "sheetPosX": 0,
+        "sheetPosY": 0,
+        "sheetPosWidth": 24,
+        "sheetPosHeight": 48,
+        "src": "./assets/IsometricPlayer.png"
+    },"PlayerFacingN": {
+        "sheetPosX": 0,
+        "sheetPosY": 0,
+        "sheetPosWidth": 24,
+        "sheetPosHeight": 48,
+        "src": "./assets/IsometricPlayer.png"
+    }
+
+}

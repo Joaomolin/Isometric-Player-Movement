@@ -1,39 +1,42 @@
 import { Isometric } from "./scripts/isometric.js";
 import { DebugOptions } from "./scripts/debugOptions.js";
 import { Cartesian } from "./scripts/cartesian.js";
-import { Pos } from "./scripts/position.js";
+import { Coordinate } from "./scripts/coordinate.js";
 import { Map } from "./scripts/map.js";
-class Tile {
-  constructor(img, imgX, imgY, imgW, imgH) {
-    var tile = this;
+import { Tile } from "./scripts/tile.js";
+import { Sprite } from "./scripts/sprite/sprite.js";
+import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
+// class Tile {
+//   constructor(img, imgX, imgY, imgW, imgH) {
+//     var tile = this;
 
-    tile.img = img;
+//     tile.img = img;
 
-    tile.imgX = imgX;
-    tile.imgY = imgY;
-    tile.imgW = imgW;
-    tile.imgH = imgH;
-  }
-}
+//     tile.imgX = imgX;
+//     tile.imgY = imgY;
+//     tile.imgW = imgW;
+//     tile.imgH = imgH;
+//   }
+// }
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var cartCanvas = document.getElementById("cartesian");
 var cartCtx = cartCanvas.getContext("2d");
 var runCanvas = true;
-const halfScreen = new Pos(canvas.width / 2, canvas.height / 2);
+const halfScreen = new Coordinate(canvas.width / 2, canvas.height / 2);
 let shouldPrintInfo = true;
 //Debug info
 let infoArr = ["Debug =D"];
-let tileTypes = [];
+let spriteTypes = [];
 //
 var interval = null;
 //Grid tiles
-const selectedTile = new Pos();
+const selectedTile = new Coordinate();
 var gridFirstTile = 0;
 var gridLastTile = 6;
 //Mouse
-const mouse = new Pos(halfScreen.x, halfScreen.y);
+const mouse = new Coordinate(halfScreen.x, halfScreen.y);
 
 // isometric:
 const isometric = new Isometric(mouse);
@@ -50,7 +53,7 @@ function ScreenToIsoY(globalX, globalY) {
   return isometric.ScreenToIsoY(globalX, globalY);
 }
 
-const map = new Map(ctx, cartCtx, gridLastTile, isometric, tileTypes, selectedTile);
+const map = new Map(ctx, cartCtx, gridLastTile, isometric, spriteTypes, selectedTile);
 const debugGrid = new DebugOptions(ctx, isometric);
 //Cart
 const cartesian = new Cartesian(selectedTile, isometric, cartCtx, map);
@@ -82,7 +85,7 @@ function printTile(x, y) {
   const tileX = IsoToScreenX(x - 1, y);
   const tileY = IsoToScreenY(x, y);
   ctx.globalAlpha = 1;
-  let tile = tileTypes[0];
+  let tile = spriteTypes[0];
   ctx.drawImage(
     tile.img,
     tile.imgX,
@@ -95,15 +98,16 @@ function printTile(x, y) {
     isometric.IsoH * 4
   );
 }
-function initTiles() {
-  tileTypes.length = 0;
-  var sheet = new Image();
-  sheet.src = "../assets/FlatTiles.png";
-  tileTypes.push(new Tile(sheet, 64, 0, 64, 64));
 
-  var sheet2 = new Image();
-  sheet2.src = "../assets/FlatTilesBig.png";
-  tileTypes.push(new Tile(sheet2, 0, 0, 64, 64));
+function initTiles() {
+  spriteTypes.length = 0;
+  // var sheet = new Image();
+  // sheet.src = "../assets/FlatTiles.png";
+  spriteTypes.push(new Sprite(TilesInfo.FlatTilesGrass));
+
+  // var sheet2 = new Image();
+  // sheet2.src = "../assets/FlatTilesBig.png";
+  spriteTypes.push(new Sprite(TilesInfo.FlatTilesBigGrass));
 }
 initTiles();
 

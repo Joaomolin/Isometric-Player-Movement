@@ -1,11 +1,14 @@
 import { Tile } from "./tile.js";
+import { Sprite } from "./sprite/sprite.js";
+import PlayerInfo from "./sprite/player.json" assert {type: 'json'};
+import { Coordinate } from "./coordinate.js";
 export class Map {
-    constructor(ctx, cartCtx, gridLastTile, isometric, tileTypes, selectedTile){
+    constructor(ctx, cartCtx, gridLastTile, isometric, spriteTypes, selectedTile){
         this.isoCtx = ctx;
         this.cartCtx = cartCtx;
         this.cartTileSize = 79;
         this.iso = isometric;
-        this.tileTypes = tileTypes;
+        this.spriteTypes = spriteTypes;
         this.selectedTile = selectedTile;
         this.floor = [];
         this.objects = [];
@@ -18,14 +21,13 @@ export class Map {
         for (let y = 0; y < gridLastTile; y++){
             let arr = [];
             for (let x = 0; x < gridLastTile; x++){
-                arr.push(0);
+                arr.push(new Tile(new Coordinate(x, y), new Sprite(PlayerInfo.PlayerIcon)));
             }
             this.floor.push(arr);
         }
     }
 
     printCartFloor(a = this.selectedTile.x, b = this.selectedTile.y){
-        console.log('PrintCartFloor');
         this.cartCtx.clearRect(0, 0, 1000, 1000);
         this.cartCtx.lineWidth = 3;
 
@@ -61,7 +63,8 @@ export class Map {
     printIsoFloorTile(x, y) {
         const tileX = this.iso.IsoToScreenX(x - 1, y);
         const tileY = this.iso.IsoToScreenY(x, y);
-        let tile = this.tileTypes[1];
+        let tile = this.spriteTypes[0];
+        console.log(tile)
         this.isoCtx.globalAlpha = 1;
         this.isoCtx.drawImage(
           tile.img,

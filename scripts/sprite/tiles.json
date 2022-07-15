@@ -1,0 +1,15 @@
+{
+    "FlatTilesBigGrass": {
+        "sheetPosX": 0,
+        "sheetPosY": 0,
+        "sheetPosWidth": 64,
+        "sheetPosHeight": 64,
+        "src": "./assets/FlatTilesBig.png"
+    },"FlatTilesGrass": {
+        "sheetPosX": 0,
+        "sheetPosY": 0,
+        "sheetPosWidth": 64,
+        "sheetPosHeight": 64,
+        "src": "./assets/FlatTiles.png"
+    }
+}
