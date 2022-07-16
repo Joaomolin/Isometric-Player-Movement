@@ -32,9 +32,11 @@ var gridLastTile = IsoConfig.gridEndAt;
 
 //Mouse
 const mouse = new Coordinates(canvas.width / 2, canvas.height / 2);
-
-// isometric:
-const isometric = new Isometric(mouse);
+const keyboard = new Keyboard();
+const player = new Player(keyboard);
+const isometric = new Isometric(mouse, player);
+const map = new Map(ctx, cartCtx, gridLastTile, isometric, selectedTile, player);
+const debugGrid = new DebugOptions(ctx, isometric);
 
 function ScreenToIsoX(globalX, globalY) {
   return isometric.ScreenToIsoX(globalX, globalY);
@@ -43,17 +45,13 @@ function ScreenToIsoY(globalX, globalY) {
   return isometric.ScreenToIsoY(globalX, globalY);
 }
 
-const keyboard = new Keyboard();
-const player = new Player(keyboard);
-const map = new Map(ctx, cartCtx, gridLastTile, isometric, selectedTile, player);
-const debugGrid = new DebugOptions(ctx, isometric);
 //Cart
 
 function runFrame() {
 
   map.printIsoFloor();
   map.printCartFloor();
-  // updateSelected(true);
+  updateSelected(true);
   player.movePlayer();
   map.printPlayer();
 
@@ -73,6 +71,7 @@ canvas.onmousemove = function (e) {
 function updateCamera(canvas) {
   return isometric.updateCamera(canvas);
 }
+
 canvas.addEventListener('mousemove', function (e) {
   if (!runCanvas) {
     runCanvas = true;

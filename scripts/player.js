@@ -101,11 +101,7 @@ export class Player {
 
     }
 
-    isInsideRange(x, min, max){
-        return x >= min && x <= max;
-    }
-
-    putInsideRange(num, min = IsoConfig.gridStartAt, max = IsoConfig.gridEndAt - 1){
+    putInsideRange(num, min = IsoConfig.gridStartAt, max = IsoConfig.gridEndAt){
         num = Math.min(num, max);
         num = Math.max(num, min);
 

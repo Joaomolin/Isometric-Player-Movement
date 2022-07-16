@@ -123,9 +123,15 @@ export class Map {
       dir.imgW,
       dir.imgH,
       tileX + IsoConfig.cellWidth / 2,
-      tileY - IsoConfig.cellHeight * 2,
+      tileY - IsoConfig.cellHeight * 3,
       IsoConfig.cellWidth,
       IsoConfig.cellHeight * 4
+    );
+
+    this.isoCtx.fillRect(
+      tileX + IsoConfig.cellWidth - 3,
+      tileY + IsoConfig.cellHeight / 4 - 5,
+      6, 6
     );
 
 
