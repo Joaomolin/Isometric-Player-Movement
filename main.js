@@ -48,6 +48,7 @@ function ScreenToIsoY(globalX, globalY) {
 //Cart
 
 function runFrame() {
+  isometric.updateCamera();
 
   map.printIsoFloor();
   map.printCartFloor();
@@ -55,7 +56,6 @@ function runFrame() {
   player.movePlayer();
   map.printPlayer();
 
-  updateCamera(canvas);
   updateInfo();
   printInfo();
 
@@ -63,14 +63,11 @@ function runFrame() {
     requestAnimationFrame(runFrame);
   }
 }
+
 canvas.onmousemove = function (e) {
   mouse.x = e.offsetX;
   mouse.y = e.offsetY;
 };
-
-function updateCamera(canvas) {
-  return isometric.updateCamera(canvas);
-}
 
 canvas.addEventListener('mousemove', function (e) {
   if (!runCanvas) {
@@ -80,7 +77,9 @@ canvas.addEventListener('mousemove', function (e) {
 });
 
 canvas.addEventListener('mouseleave', function (e) {
-  runCanvas = false;
+  // runCanvas = false;
+    mouse.x = 400;
+    mouse.y = 200;
 });
 function updateSelected(print) {
 

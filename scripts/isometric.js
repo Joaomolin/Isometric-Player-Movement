@@ -13,50 +13,58 @@ export class Isometric {
     }
 
 
-    updateCamera(canvas){
-        this.updateCameraByPlayer();
-        this.updateCameraByMouse();
+    updateCamera(){
+        if (!this.updateCameraByMouse()){
+            this.updateCameraByPlayer();
+        }
         
     }
 
     updateCameraByPlayer(){
-        const step = 4;
+        const step = 150;
         //Right
-        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y)> canvas.width - (canvas.width / 4)){
-            this.camera.x -= step;
+        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y)> canvas.width - (canvas.width / 12)){
+            this.camera.x -= step * 2;
         }
         //Left
-        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y) < canvas.width / 4){
-            this.camera.x += step;
+        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y) < canvas.width / 12){
+            this.camera.x += step * 2;
         }
         //Up
-        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) < canvas.height / 3){
+        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) < canvas.height / 10){
             this.camera.y += step;
         }
         //Down
-        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) > canvas.height - (canvas.height / 3)){
+        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) > canvas.height - (canvas.height / 10)){
             this.camera.y -= step;
         }
+
     }
 
     updateCameraByMouse(){
-        const step = 4;
+        const step = 8;
         //Right
         if (this.mouse.x > canvas.width - (canvas.width / 8)){
             this.camera.x -= step;
+            return true;
         }
         //Left
         if (this.mouse.x < canvas.width / 8){
             this.camera.x += step;
+            return true;
         }
         //Up
         if (this.mouse.y < canvas.height / 5){
             this.camera.y += step;
+            return true;
         }
         //Down
         if (this.mouse.y > canvas.height - (canvas.height / 5)){
             this.camera.y -= step;
+            return true;
         }
+
+        return false;
     }
 
     IsoToScreenX(localX, localY) {
