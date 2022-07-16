@@ -5,6 +5,7 @@ import { Map } from "./scripts/map.js";
 import { Player } from "./scripts/player.js";
 import { Sprite } from "./scripts/sprite/sprite.js";
 import { Tile } from "./scripts/tile.js";
+import IsoConfig from "./isometricConfig.json" assert { type: "json" };
 import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
 import PlayerInfo from "./scripts/sprite/player.json" assert {type: 'json'};
 import { Keyboard } from "./scripts/keyboard.js";
@@ -26,8 +27,9 @@ class SelectedTile {
   }
 }
 const selectedTile = new SelectedTile();
-var gridFirstTile = 0;
-var gridLastTile = 11;
+var gridFirstTile = IsoConfig.gridStartAt;
+var gridLastTile = IsoConfig.gridEndAt;
+
 //Mouse
 const mouse = new Coordinates(canvas.width / 2, canvas.height / 2);
 
@@ -49,10 +51,10 @@ const debugGrid = new DebugOptions(ctx, isometric);
 
 function runFrame() {
 
-  player.movePlayer();
   map.printIsoFloor();
   map.printCartFloor();
-  updateSelected(true);
+  // updateSelected(true);
+  player.movePlayer();
   map.printPlayer();
 
   updateCamera(canvas);
@@ -87,6 +89,7 @@ function updateSelected(print) {
   var ry = Math.max(gridFirstTile, Math.min(ScreenToIsoY(mouse.x, mouse.y), gridLastTile));
   const floorX = Math.min(Math.floor(rx), gridLastTile - 1);
   const floorY = Math.min(Math.floor(ry), gridLastTile - 1);
+
   selectedTile.coord.x = floorX;
   selectedTile.coord.y = floorY;
 

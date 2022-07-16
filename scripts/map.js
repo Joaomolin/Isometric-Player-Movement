@@ -23,10 +23,10 @@ export class Map {
       for (let x = 0; x < gridLastTile; x++) {
         let infoToSend = TilesInfo.FlatTilesBigGrass;
         const seed = Math.random();
-        if (seed > 0.5) {
+        if (seed > 0.7) {
           infoToSend = TilesInfo.FlatTilesBigWater;
         }
-        if (seed > 0.8) {
+        if (seed > 0.9) {
           infoToSend = TilesInfo.FlatTilesBigDirt;
         }
 
@@ -53,8 +53,8 @@ export class Map {
   }
 
   printCartFloorTile(x, y) {
-    const xCoord = this.selectedTile.coord.x + (x - 2);
-    const yCoord = this.selectedTile.coord.y + (y - 2);
+    const xCoord = Math.floor(this.player.pos.x) + (x - 2);
+    const yCoord =  Math.floor(this.player.pos.y) + (y - 2);
     if (xCoord >= 0 && yCoord >= 0 && xCoord < this.floor[y].length && yCoord < this.floor.length) {
       const tile = this.floor[yCoord][xCoord];
 
@@ -74,7 +74,7 @@ export class Map {
         this.cartTileSize
       );
 
-      if (xCoord === this.playerTile.x && yCoord === this.playerTile.y) { 
+      if (xCoord == Math.floor(this.player.pos.x) && yCoord == Math.floor(this.player.pos.y)) { 
         // this.cartCtx.fillStyle = this.selectedTile.spriteInfo.color;
         const tile = this.selectedTile.spriteIcon;
         this.cartCtx.drawImage(
@@ -89,6 +89,7 @@ export class Map {
           IsoConfig.cellHeight * 4
         );
       }
+
       this.cartCtx.fillStyle = 'black'
       this.cartCtx.fillText(`${xCoord}, ${yCoord}`, 10 + (x * this.cartTileSize), this.cartTileSize - 5 + (y * this.cartTileSize), this.cartTileSize, this.cartTileSize);
 
@@ -107,10 +108,7 @@ export class Map {
   printIsoPlayer() {
     this.player.updateSpriteOrientation();
 
-    const tile = this.selectedTile.spriteInfo;
-    // const dir = this.player.dirSprite;
-    
-    // console.log(dir)
+    const dir = this.player.dirSprite;
 
     const tileX = this.iso.IsoToScreenX(
       this.playerTile.x - 1,
@@ -118,18 +116,18 @@ export class Map {
     );
 
     const tileY = this.iso.IsoToScreenY(this.playerTile.x, this.playerTile.y);
-
     this.isoCtx.drawImage(
-      tile.sprite.img,
-      tile.sprite.imgX,
-      tile.sprite.imgY,
-      tile.sprite.imgW,
-      tile.sprite.imgH,
+      dir.img,
+      dir.imgX,
+      dir.imgY,
+      dir.imgW,
+      dir.imgH,
       tileX + IsoConfig.cellWidth / 2,
       tileY - IsoConfig.cellHeight * 2,
       IsoConfig.cellWidth,
       IsoConfig.cellHeight * 4
     );
+
 
 
   }

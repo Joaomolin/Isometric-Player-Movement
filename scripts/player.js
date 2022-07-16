@@ -1,4 +1,5 @@
 import { Coordinates } from "./coordinates.js";
+import IsoConfig from "../isometricConfig.json" assert { type: "json" };
 import PlayerInfo from "./sprite/player.json" assert {type: 'json'};
 import { Sprite } from "./sprite/sprite.js"
 export class Player {
@@ -20,7 +21,6 @@ export class Player {
 
         this.dirSprite = this.S;
 
-        this.walkTick = 0;
     }
 
     getImage(dir) {
@@ -42,13 +42,6 @@ export class Player {
     }
 
     movePlayer() {
-        if (this.walkTick < 8) {
-            this.walkTick++;
-            return;
-        } else {
-            this.walkTick = 0;
-        }
-
         const w = this.keyboard;
         let walkAction = 0;
         if (w.walkNorth) {
@@ -64,70 +57,58 @@ export class Player {
             walkAction++;
         }
 
+        const step = 0.1
         if (walkAction === 1) {
             //Simple walk
             if (w.walkNorth) {
-                this.pos.x -= 1;
-                this.pos.y -= 1;
+                this.pos.x -= step;
+                this.pos.y -= step;
                 this.dir = 'N';
             } else if (w.walkSouth) {
-                this.pos.x += 1;
-                this.pos.y += 1;
+                this.pos.x += step;
+                this.pos.y += step;
                 this.dir = 'S';
             } else if (w.walkEast) {
-                this.pos.x += 1;
-                this.pos.y -= 1;
+                this.pos.x += step / 2;
+                this.pos.y -= step / 2;
                 this.dir = 'E';
             } else if (w.walkWest) {
-                this.pos.x -= 1;
-                this.pos.y += 1;
+                this.pos.x -= step / 2;
+                this.pos.y += step / 2;
                 this.dir = 'W';
             }
         } else if (walkAction === 2) {
             if (w.walkNorth && w.walkEast) {
-                this.pos.y -= 1;
-
+                this.pos.y -= step;
                 this.dir = 'NE';
             }
             if (w.walkNorth && w.walkWest) {
-                this.pos.x -= 1;
-
+                this.pos.x -= step;
                 this.dir = 'NW';
             }
             if (w.walkSouth && w.walkEast) {
-                this.pos.x += 1;
+                this.pos.x += step;
                 this.dir = 'SE';
             }
             if (w.walkSouth && w.walkWest) {
-                this.pos.y += 1;
-
+                this.pos.y += step;
                 this.dir = 'SW';
             }
         }
 
+        this.pos.x = this.putInsideRange(this.pos.x)
+        this.pos.y = this.putInsideRange(this.pos.y)
 
-        // switch (key) {
-        //     case 'w':
-        //         this.direction = 'N';
-        //         this.pos.y -= 1;
-        //         break;
-        //     case 'a':
-        //         this.direction = 'W';
-        //         this.pos.x -= 1;
-        //         break;
-        //     case 's':
-        //         this.direction = 'S';
-        //         this.pos.y += 1;
-        //         break;
-        //     case 'd':
-        //         this.direction = 'E';
-        //         this.pos.x += 1;
-        //         break;
-        //     default:
-        //         // console.log(`Can't move with ${key}`)
-        //         break;
-        // }
+    }
 
+    isInsideRange(x, min, max){
+        return x >= min && x <= max;
+    }
 
+    putInsideRange(num, min = IsoConfig.gridStartAt, max = IsoConfig.gridEndAt - 1){
+        num = Math.min(num, max);
+        num = Math.max(num, min);
+
+        return num;
     }
 }

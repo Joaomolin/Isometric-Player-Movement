@@ -3,7 +3,7 @@ export class DebugOptions {
     this.ctx = ctx;
     this.iso = isometric;
 
-    this.printCoordinates = true;
+    this.printCoordinates = false;
     this.printCameraBorder = false;
   }
 
