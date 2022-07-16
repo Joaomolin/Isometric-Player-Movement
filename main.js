@@ -21,7 +21,7 @@ let infoArr = ["Debug =D"];
 class SelectedTile {
   constructor() {
     this.coord = new Coordinates();
-    this.spriteInfo = new Tile(this.coord, PlayerInfo.Directions.PlayerFacingW);
+    this.spriteInfo = new Tile(this.coord, PlayerInfo.Directions.PlayerFacingN);
     this.spriteIcon = new Tile(this.coord, PlayerInfo.PlayerIcon);
   }
 }
@@ -53,7 +53,7 @@ function runFrame() {
   map.printIsoFloor();
   map.printCartFloor();
   updateSelected(true);
-  map.printSelectedTile();
+  map.printPlayer();
 
   updateCamera(canvas);
   updateInfo();

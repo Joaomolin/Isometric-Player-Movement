@@ -13,17 +13,16 @@ export class Keyboard {
             case 'w':
                 this.walkNorth = false;
                 break;
-            case 'a':
+            case 'd':
                 this.walkEast = false;
                 break
             case 's':
                 this.walkSouth = false;
                 break;
-            case 'd':
+            case 'a':
                 this.walkWest = false;
                 break
         }
-
     }
 
     keyDown(key){
@@ -31,13 +30,13 @@ export class Keyboard {
             case 'w':
                 this.walkNorth = true;
                 break;
-            case 'a':
+            case 'd':
                 this.walkEast = true;
                 break
             case 's':
                 this.walkSouth = true;
                 break;
-            case 'd':
+            case 'a':
                 this.walkWest = true;
                 break
         }

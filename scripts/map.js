@@ -36,7 +36,7 @@ export class Map {
     }
   }
 
-  printSelectedTile() {
+  printPlayer() {
     this.printIsoPlayer();
     
   }
@@ -105,11 +105,18 @@ export class Map {
 
   }
   printIsoPlayer() {
+    this.player.updateSpriteOrientation();
+
     const tile = this.selectedTile.spriteInfo;
+    // const dir = this.player.dirSprite;
+    
+    // console.log(dir)
+
     const tileX = this.iso.IsoToScreenX(
       this.playerTile.x - 1,
       this.playerTile.y
     );
+
     const tileY = this.iso.IsoToScreenY(this.playerTile.x, this.playerTile.y);
 
     this.isoCtx.drawImage(
