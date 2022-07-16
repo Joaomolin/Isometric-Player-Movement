@@ -78,18 +78,18 @@ export class Map {
       );
 
       if (xCoord == Math.floor(this.player.pos.x) && yCoord == Math.floor(this.player.pos.y)) { 
-        // this.cartCtx.fillStyle = this.selectedTile.spriteInfo.color;
-        const tile = this.selectedTile.spriteIcon;
+        
+        const tile = this.player.dirSprite;
         this.cartCtx.drawImage(
-          tile.sprite.img,
-          tile.sprite.imgX,
-          tile.sprite.imgY,
-          tile.sprite.imgW,
-          tile.sprite.imgH / 2,
-          x * this.cartTileSize - 5,
-          y * this.cartTileSize - 10,
-          IsoConfig.cellWidth * 2,
-          IsoConfig.cellHeight * 4
+          tile.img,
+          tile.imgX,
+          tile.imgY,
+          tile.imgW,
+          tile.imgH,
+          x + IsoConfig.cellWidth * 1.5,
+          y + IsoConfig.cellHeight * 2,
+          IsoConfig.cellWidth * 3,
+          IsoConfig.cellHeight * 6
         );
       }
 

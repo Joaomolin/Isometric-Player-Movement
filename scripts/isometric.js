@@ -21,6 +21,7 @@ export class Isometric {
     }
 
     updateCameraByPlayer(){
+        if (!this.player.keyboard.snapCameraToPlayer) return;
         const step = 150;
         //Right
         if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y)> canvas.width - (canvas.width / 8)){

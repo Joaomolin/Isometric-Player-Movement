@@ -41,7 +41,7 @@ export class DebugOptions {
 
   strokeSelectedTile(floorX, floorY){
     
-    this.ctx.strokeStyle = "red";
+    this.ctx.strokeStyle = "yellow";
     this.ctx.beginPath();
     this.ctx.moveTo(this.iso.IsoToScreenX(floorX, floorY), this.iso.IsoToScreenY(floorX, floorY));
     this.ctx.lineTo(
@@ -59,7 +59,6 @@ export class DebugOptions {
   this.ctx.closePath();
   this.ctx.stroke();
 
-  this.ctx.strokeStyle = "black";
   }
   printGridLines(gridFirstTile, gridLastTile) {
     this.ctx.strokeStyle = "#aaa";

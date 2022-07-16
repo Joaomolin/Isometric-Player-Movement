@@ -16,14 +16,15 @@ var cartCanvas = document.getElementById("cartesian");
 var cartCtx = cartCanvas.getContext("2d");
 var runCanvas = true;
 let shouldPrintInfo = true;
-//Debug info
+//Info arrays
 let infoArr = ["Debug =D"];
+let tipsArr = ["Use WASD to walk", "Use R to run", "Move camera with mouse", "C to disable snap to player"];
 //Grid tiles
 class SelectedTile {
   constructor() {
     this.coord = new Coordinates();
-    this.spriteInfo = new Tile(this.coord, SkeletonInfo.Sheet.N);
-    this.spriteIcon = new Tile(this.coord, SkeletonInfo.Sheet.N);
+    this.spriteInfo = new Tile(this.coord, SkeletonInfo.Sheet.S);
+    // this.spriteIcon = new Tile(this.coord, SkeletonInfo.Sheet.N);
   }
 }
 const selectedTile = new SelectedTile();
@@ -32,6 +33,7 @@ var gridLastTile = IsoConfig.gridEndAt;
 
 //Mouse
 const mouse = new Coordinates(canvas.width / 2, canvas.height / 2);
+let printMouseCoordinates = false;
 const keyboard = new Keyboard();
 const player = new Player(keyboard);
 const isometric = new Isometric(mouse, player);
@@ -52,7 +54,7 @@ function runFrame() {
 
   map.printIsoFloor();
   map.printCartFloor();
-  // updateSelected(true);
+  updateSelected();
   player.movePlayer();
   map.printPlayer();
 
@@ -70,6 +72,7 @@ canvas.onmousemove = function (e) {
 };
 
 canvas.addEventListener('mousemove', function (e) {
+  printMouseCoordinates = true;
   if (!runCanvas) {
     runCanvas = true;
     runFrame();
@@ -77,11 +80,11 @@ canvas.addEventListener('mousemove', function (e) {
 });
 
 canvas.addEventListener('mouseleave', function (e) {
-  // runCanvas = false;
-    mouse.x = 400;
-    mouse.y = 200;
+  printMouseCoordinates = false;
+  mouse.x = 400;
+  mouse.y = 200;
 });
-function updateSelected(print) {
+function updateSelected() {
 
   var rx = Math.max(gridFirstTile, Math.min(ScreenToIsoX(mouse.x, mouse.y), gridLastTile));
   var ry = Math.max(gridFirstTile, Math.min(ScreenToIsoY(mouse.x, mouse.y), gridLastTile));
@@ -91,7 +94,7 @@ function updateSelected(print) {
   selectedTile.coord.x = floorX;
   selectedTile.coord.y = floorY;
 
-  if (print) {
+  if (printMouseCoordinates) {
     debugGrid.printDebugGrid(rx, ry, gridFirstTile, gridLastTile, floorX, floorY, canvas);
   }
 
@@ -137,18 +140,32 @@ function printInfo() {
   ctx.fillStyle = 'white';
   ctx.strokeStyle = 'black'
   ctx.globalAlpha = 0.8;
+  //Left
   ctx.strokeRect(0, 0, 170, infoArr.length * 21);
   ctx.fillRect(0, 0, 170, infoArr.length * 21);
+  //Right
+  ctx.strokeRect(800, 0, 300, tipsArr.length * 21);
+  ctx.fillRect(800, 0, 300, tipsArr.length * 21);
+
+  //Text
   ctx.fillStyle = "black";
   ctx.globalAlpha = 1;
-  for (var i = 0; i < infoArr.length; i++)
-    ctx.fillText(infoArr[i], 10, 15 + i * 20);
+  for (var i = 0; i < Math.max(infoArr.length, tipsArr.length); i++){
+    if (infoArr[i]){
+      ctx.fillText(infoArr[i], 10, 18 + i * 20);
+    }
+    if (tipsArr[i]){
+      ctx.fillText(tipsArr[i], 810, 18 + i * 20);
+
+    }
+  }
 }
 
 runFrame();
 
 
 document.addEventListener('keyup', function (e) {
+  // console.log(e.key)
   keyboard.keyUp(e.key);
 });
 

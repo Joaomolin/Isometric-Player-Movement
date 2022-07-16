@@ -11,6 +11,7 @@ export class Player {
         this.dir = 'A';
         this.pos = new Coordinates();
         this.walking = false;
+        this.frameDelayTime = 6;
 
 
         this.NW = this.getImage(SkeletonInfo.Sheet.NW);
@@ -24,13 +25,14 @@ export class Player {
 
         this.dirSprite = this.S;
         this.spriteFrame = 0;
-        this.getFrameDelay = 0;
+        this.frameDelay = 0;
 
     }
 
     getNextFrame(){
+
         if (!this.walking){
-            this.getFrameDelay = 0;
+            this.frameDelay = 0;
             if (this.spriteFrame > 1 && this.spriteFrame < 5){
                 this.spriteFrame = 4;
             } else {
@@ -38,10 +40,11 @@ export class Player {
             }
         } 
 
-        if (this.getFrameDelay > 5){
-            this.getFrameDelay = 0;
+
+        if (this.frameDelay > this.getDelayTime()){
+            this.frameDelay = 0;
         } else {
-            this.getFrameDelay++;
+            this.frameDelay++;
             return this.spriteFrame;
         }
 
@@ -52,6 +55,14 @@ export class Player {
         }
 
         return this.spriteFrame;
+    }
+
+    getDelayTime(){
+        if (this.keyboard.isRunning){
+            return 3;
+        } else {
+            return 6;
+        }
     }
 
     getImage(dir) {
@@ -94,7 +105,7 @@ export class Player {
             this.walking = true;
         }
 
-        const step = 0.05
+        const step = this.getDelayTime() === this.frameDelayTime ? 0.04 : 0.07
         if (walkAction === 1) {
             //Simple walk
             if (w.walkNorth) {
@@ -138,7 +149,7 @@ export class Player {
 
     }
 
-    putInsideRange(num, min = IsoConfig.gridStartAt, max = IsoConfig.gridEndAt){
+    putInsideRange(num, min = IsoConfig.gridStartAt, max = IsoConfig.gridEndAt - 0.1){
         num = Math.min(num, max);
         num = Math.max(num, min);
 
