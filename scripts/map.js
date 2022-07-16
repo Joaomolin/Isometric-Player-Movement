@@ -21,13 +21,16 @@ export class Map {
     for (let y = 0; y < gridLastTile; y++) {
       let arr = [];
       for (let x = 0; x < gridLastTile; x++) {
-        let infoToSend = TilesInfo.FlatTilesBigGrass;
+        let infoToSend = TilesInfo.NiceGrass1;
         const seed = Math.random();
-        if (seed > 0.7) {
-          infoToSend = TilesInfo.FlatTilesBigWater;
+        if (seed > 0.25) {
+          infoToSend = TilesInfo.NiceGrass2;
         }
-        if (seed > 0.9) {
-          infoToSend = TilesInfo.FlatTilesBigDirt;
+        if (seed > 0.50) {
+          infoToSend = TilesInfo.NiceGrass3;
+        }
+        if (seed > 0.75) {
+          infoToSend = TilesInfo.NiceGrass4;
         }
 
         arr.push(new Tile(new Coordinates(x, y), infoToSend));
@@ -116,23 +119,36 @@ export class Map {
     );
 
     const tileY = this.iso.IsoToScreenY(this.playerTile.x, this.playerTile.y);
+
     this.isoCtx.drawImage(
       dir.img,
-      dir.imgX,
+      dir.imgW * this.player.getNextFrame(),
       dir.imgY,
       dir.imgW,
       dir.imgH,
-      tileX + IsoConfig.cellWidth / 2,
-      tileY - IsoConfig.cellHeight * 3,
-      IsoConfig.cellWidth,
-      IsoConfig.cellHeight * 4
+      tileX - IsoConfig.cellWidth / 2,
+      tileY - IsoConfig.cellHeight * 4,
+      IsoConfig.cellWidth * 3,
+      IsoConfig.cellHeight * 6
     );
 
-    this.isoCtx.fillRect(
-      tileX + IsoConfig.cellWidth - 3,
-      tileY + IsoConfig.cellHeight / 4 - 5,
-      6, 6
-    );
+    // this.isoCtx.drawImage(
+    //   dir.img,
+    //   dir.imgX,
+    //   dir.imgY,
+    //   dir.imgW,
+    //   dir.imgH,
+    //   tileX + IsoConfig.cellWidth / 2,
+    //   tileY - IsoConfig.cellHeight * 3,
+    //   IsoConfig.cellWidth,
+    //   IsoConfig.cellHeight * 4
+    // );
+
+    // this.isoCtx.fillRect(
+    //   tileX + IsoConfig.cellWidth - 3,
+    //   tileY + IsoConfig.cellHeight / 4 - 5,
+    //   6, 6
+    // );
 
 
 

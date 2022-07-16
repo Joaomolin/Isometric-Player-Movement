@@ -6,7 +6,7 @@ import { Player } from "./scripts/player.js";
 import { Sprite } from "./scripts/sprite/sprite.js";
 import { Tile } from "./scripts/tile.js";
 import IsoConfig from "./isometricConfig.json" assert { type: "json" };
-import TilesInfo from "./scripts/sprite/tiles.json" assert {type: 'json'};
+import SkeletonInfo from "./scripts/sprite/skeleton.json" assert {type: 'json'};
 import PlayerInfo from "./scripts/sprite/player.json" assert {type: 'json'};
 import { Keyboard } from "./scripts/keyboard.js";
 
@@ -22,8 +22,8 @@ let infoArr = ["Debug =D"];
 class SelectedTile {
   constructor() {
     this.coord = new Coordinates();
-    this.spriteInfo = new Tile(this.coord, PlayerInfo.Directions.PlayerFacingN);
-    this.spriteIcon = new Tile(this.coord, PlayerInfo.PlayerIcon);
+    this.spriteInfo = new Tile(this.coord, SkeletonInfo.Sheet.N);
+    this.spriteIcon = new Tile(this.coord, SkeletonInfo.Sheet.N);
   }
 }
 const selectedTile = new SelectedTile();
@@ -52,7 +52,7 @@ function runFrame() {
 
   map.printIsoFloor();
   map.printCartFloor();
-  updateSelected(true);
+  // updateSelected(true);
   player.movePlayer();
   map.printPlayer();
 
@@ -125,8 +125,8 @@ tileCoordBtn.addEventListener('click', function (e) {
 function updateInfo() {
   infoArr.length = 0;
   infoArr.push(`Mouse: ${mouse.getInString()}`);
-  infoArr.push(`Inside grid: ${selectedTile.coord.getInString()}`);
-  infoArr.push(`Player: ${player.dir}, ${player.pos.getInString()}`);
+  infoArr.push(`Mouse grid: ${selectedTile.coord.getInString()}`);
+  infoArr.push(`Player: ${player.pos.getInString()} / ${player.dir}`);
   infoArr.push(`Cam: ${isometric.camera.getInString()}`);
 }
 

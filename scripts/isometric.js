@@ -23,19 +23,19 @@ export class Isometric {
     updateCameraByPlayer(){
         const step = 150;
         //Right
-        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y)> canvas.width - (canvas.width / 12)){
+        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y)> canvas.width - (canvas.width / 8)){
             this.camera.x -= step * 2;
         }
         //Left
-        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y) < canvas.width / 12){
+        if (this.IsoToScreenX(this.player.pos.x, this.player.pos.y) < canvas.width / 8){
             this.camera.x += step * 2;
         }
         //Up
-        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) < canvas.height / 10){
+        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) < canvas.height / 4){
             this.camera.y += step;
         }
         //Down
-        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) > canvas.height - (canvas.height / 10)){
+        if (this.IsoToScreenY(this.player.pos.x, this.player.pos.y) > canvas.height - (canvas.height / 8)){
             this.camera.y -= step;
         }
 
