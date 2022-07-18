@@ -28,33 +28,23 @@ class SelectedTile {
   }
 }
 const selectedTile = new SelectedTile();
-var gridFirstTile = IsoConfig.gridStartAt;
-var gridLastTile = IsoConfig.gridEndAt;
 
-//Mouse
 const mouse = new Coordinates(canvas.width / 2, canvas.height / 2);
 let printMouseCoordinates = false;
 const keyboard = new Keyboard();
 const player = new Player(keyboard);
 const isometric = new Isometric(mouse, player);
-const map = new Map(ctx, cartCtx, gridLastTile, isometric, selectedTile, player);
+const map = new Map(ctx, cartCtx, IsoConfig.gridEndAt, isometric, selectedTile);
 const debugGrid = new DebugOptions(ctx, isometric);
 
-function ScreenToIsoX(globalX, globalY) {
-  return isometric.ScreenToIsoX(globalX, globalY);
-}
-function ScreenToIsoY(globalX, globalY) {
-  return isometric.ScreenToIsoY(globalX, globalY);
-}
-
 //Cart
-
 function runFrame() {
   isometric.updateCamera();
 
   map.printIsoFloor();
   map.printCartFloor();
-  updateSelected();
+  printMouseTile();
+
   player.movePlayer();
   map.printPlayer();
 
@@ -84,46 +74,22 @@ canvas.addEventListener('mouseleave', function (e) {
   mouse.x = 400;
   mouse.y = 200;
 });
-function updateSelected() {
 
-  var rx = Math.max(gridFirstTile, Math.min(ScreenToIsoX(mouse.x, mouse.y), gridLastTile));
-  var ry = Math.max(gridFirstTile, Math.min(ScreenToIsoY(mouse.x, mouse.y), gridLastTile));
-  const floorX = Math.min(Math.floor(rx), gridLastTile - 1);
-  const floorY = Math.min(Math.floor(ry), gridLastTile - 1);
+function printMouseTile() {
+
+  var rx = Math.max(IsoConfig.gridStartAt, Math.min(isometric.ScreenToIsoX(mouse.x, mouse.y), IsoConfig.gridEndAt));
+  var ry = Math.max(IsoConfig.gridStartAt, Math.min(isometric.ScreenToIsoY(mouse.x, mouse.y), IsoConfig.gridEndAt));
+  const floorX = Math.min(Math.floor(rx), IsoConfig.gridEndAt - 1);
+  const floorY = Math.min(Math.floor(ry), IsoConfig.gridEndAt - 1);
 
   selectedTile.coord.x = floorX;
   selectedTile.coord.y = floorY;
 
   if (printMouseCoordinates) {
-    debugGrid.printDebugGrid(rx, ry, gridFirstTile, gridLastTile, floorX, floorY, canvas);
+    debugGrid.printDebugGrid(rx, ry, IsoConfig.gridStartAt, IsoConfig.gridEndAt, floorX, floorY, canvas);
   }
 
 }
-
-var tileCoordBtn = document.getElementById("showDebugInfoBtn");
-tileCoordBtn.addEventListener('click', function (e) {
-  shouldPrintInfo = !shouldPrintInfo;
-  runFrame();
-});
-
-var tileCoordBtn = document.getElementById("showCartesianBtn");
-tileCoordBtn.addEventListener('click', function (e) {
-  cartCanvas.style.display = cartCanvas.style.display === 'none' ? 'initial' : 'none';
-
-  runFrame();
-});
-
-var cameraBorderBtn = document.getElementById("showCameraBorder");
-cameraBorderBtn.addEventListener('click', function (e) {
-  debugGrid.printCameraBorder = !debugGrid.printCameraBorder;
-  runFrame();
-});
-
-var tileCoordBtn = document.getElementById("showTileCoord");
-tileCoordBtn.addEventListener('click', function (e) {
-  debugGrid.printCoordinates = !debugGrid.printCoordinates;
-  runFrame();
-});
 
 function updateInfo() {
   infoArr.length = 0;
@@ -165,10 +131,34 @@ runFrame();
 
 
 document.addEventListener('keyup', function (e) {
-  // console.log(e.key)
   keyboard.keyUp(e.key);
 });
 
 document.addEventListener('keydown', function (e) {
   keyboard.keyDown(e.key);
+});
+
+const showDebugInfoBtn = document.getElementById("showDebugInfoBtn");
+showDebugInfoBtn.addEventListener('click', function (e) {
+  shouldPrintInfo = !shouldPrintInfo;
+  runFrame();
+});
+
+const showCartesianBtn = document.getElementById("showCartesianBtn");
+showCartesianBtn.addEventListener('click', function (e) {
+  cartCanvas.style.display = cartCanvas.style.display === 'none' ? 'initial' : 'none';
+
+  runFrame();
+});
+
+const showCameraBorder = document.getElementById("showCameraBorder");
+showCameraBorder.addEventListener('click', function (e) {
+  debugGrid.printCameraBorder = !debugGrid.printCameraBorder;
+  runFrame();
+});
+
+const showTileCoord = document.getElementById("showTileCoord");
+showTileCoord.addEventListener('click', function (e) {
+  debugGrid.printCoordinates = !debugGrid.printCoordinates;
+  runFrame();
 });

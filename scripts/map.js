@@ -3,7 +3,7 @@ import TilesInfo from "./sprite/tiles.json" assert { type: "json" };
 import IsoConfig from "../isometricConfig.json" assert { type: "json" };
 import { Coordinates } from "./coordinates.js";
 export class Map {
-  constructor(ctx, cartCtx, gridLastTile, isometric, selectedTile, player) {
+  constructor(ctx, cartCtx, gridLastTile, isometric, selectedTile) {
     this.isoCtx = ctx;
     this.cartCtx = cartCtx;
     this.cartTileSize = 79;
@@ -11,8 +11,8 @@ export class Map {
     this.selectedTile = selectedTile;
     this.floor = [];
     this.objects = [];
-    this.playerTile = player.pos;
-    this.player = player;
+    this.playerTile = isometric.player.pos;
+    this.player = isometric.player;
 
     this.createMap(gridLastTile);
   }
@@ -103,7 +103,7 @@ export class Map {
     this.isoCtx.clearRect(0, 0, 10000, 10000);
     for (let y = 0; y < this.floor.length; y++) {
       for (let x = 0; x < this.floor[y].length; x++) {
-        this.newPrintIsoFloorTile(this.floor[x][y]);
+        this.printIsoFloorTile(this.floor[x][y]);
       }
     }
 
@@ -132,29 +132,9 @@ export class Map {
       IsoConfig.cellHeight * 6
     );
 
-    // this.isoCtx.drawImage(
-    //   dir.img,
-    //   dir.imgX,
-    //   dir.imgY,
-    //   dir.imgW,
-    //   dir.imgH,
-    //   tileX + IsoConfig.cellWidth / 2,
-    //   tileY - IsoConfig.cellHeight * 3,
-    //   IsoConfig.cellWidth,
-    //   IsoConfig.cellHeight * 4
-    // );
-
-    // this.isoCtx.fillRect(
-    //   tileX + IsoConfig.cellWidth - 3,
-    //   tileY + IsoConfig.cellHeight / 4 - 5,
-    //   6, 6
-    // );
-
-
-
   }
 
-  newPrintIsoFloorTile(tile) {
+  printIsoFloorTile(tile) {
 
     const tileX = this.iso.IsoToScreenX(
       tile.coordinates.x - 1,

@@ -6,8 +6,8 @@ export class Isometric {
         this.camera = new Coordinates();
         this.mouse = mouse;
         this.player = player;
-        this.IsoW = Config.cellWidth; // cell width
-        this.IsoH = Config.cellHeight; // cell height
+        this.IsoW = Config.cellWidth;
+        this.IsoH = Config.cellHeight;
         this.IsoX = 400;
         this.IsoY = 200;
     }
